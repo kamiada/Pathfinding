@@ -52,28 +52,75 @@ namespace A_star_search
 
 
 
-        public static void BF_Search(List<Node> caves)
+        public static IEnumerable<int> total_path = new List<int>();
+
+
+        public static void A_star_Search(List<Node>caves)
         {
+            Dictionary<int, Node> path = new Dictionary<int, Node>();
+            List<int> answer = new List<int>();
             Node start = caves[0];
-            var frontier = new Queue<Node>();
-            frontier.Enqueue(start);
+            Node test = caves[1];
+            Node destination = caves[caves.Count() - 1];
+            var OpenList = new Queue<Node>();
+            OpenList.Enqueue(start);
             var visited = new HashSet<Node>();
             visited.Add(start);
-
-            while(frontier.Count > 0 )
+            while (OpenList.Count > 0)
             {
-                var current = frontier.Dequeue();
-                Console.WriteLine("Visiting {0}", current.Key);
-                for(int i=0; i< current.Connections.Count(); i++)
+                var current = OpenList.Dequeue();
+                answer.Add(current.Key);
+                //Console.WriteLine("Visiting {0}", current.Key);
+                if (current == destination)
+                {
+                    foreach(Node n in visited)
+                    { Console.WriteLine(n.Key); }
+                }
+
+
+                for (int i = 0; i < current.Connections.Count(); i++)
                 {
                     int tunnel = current.Connections[i];
 
                     if (tunnel == 1)
                     {
                         Node neighbour = caves[i];
-                        if(!visited.Contains(neighbour))
+                        if (!visited.Contains(neighbour))
                         {
-                            frontier.Enqueue(neighbour);
+                            OpenList.Enqueue(neighbour);
+                            visited.Add(neighbour);
+                            answer.Add(current.Key);
+                        }
+                    }
+
+                    
+
+                }
+            }
+        }
+
+        public static void Breadth_First_Search(List<Node> caves)
+        {
+            Node start = caves[0];
+            var OpenList = new Queue<Node>();
+            OpenList.Enqueue(start);
+            var visited = new HashSet<Node>();
+            visited.Add(start);
+
+            while (OpenList.Count > 0)
+            {
+                var current = OpenList.Dequeue();
+                Console.WriteLine("Visiting {0}", current.Key);
+                for (int i = 0; i < current.Connections.Count(); i++)
+                {
+                    int tunnel = current.Connections[i];
+
+                    if (tunnel == 1)
+                    {
+                        Node neighbour = caves[i];
+                        if (!visited.Contains(neighbour))
+                        {
+                            OpenList.Enqueue(neighbour);
                             visited.Add(neighbour);
                         }
                     }

@@ -23,39 +23,12 @@ namespace A_star_search
 
 
             SetCoordinatesAndConnections(caves, N, numbCoord, nodes);
-            Algorithm.BF_Search(nodes);
+            Algorithm.Breadth_First_Search(nodes);
+            //Algorithm.A_star_Search(nodes);
+
             //Algorithm.DijkstraSearch(nodes);
             //PrintDebugConnections(nodes);
             Console.ReadKey();
-        }
-
-
-
-        //private void Astar(List<Node> nodes)
-        //{
-        //    Node Start = nodes[0];
-        //    Node destination = nodes[nodes.Count() - 1];
-        //    var OpenList = new List<Node>();
-
-        //    OpenList.Add(Start);
-
-
-        //    while(OpenList.Count>0)
-        //    {
-        //        Node current;
-        //    }
-           
-        //}
-        private static void PrintDebugConnections(List<Node>nodes)
-        {
-            Console.Write("\n\n");
-            //TO PRINT CONNETIONS
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                Console.Write(string.Join(" ", nodes[i].Connections));
-                Console.Write("\n");
-            }
-            Console.WriteLine();
         }
 
         private static int[] FindAndReadFile(string filepath)
@@ -77,13 +50,18 @@ namespace A_star_search
                 nodes.Add(node);
                 no++;
             }
+
             int numbConn = numbCoord + 1;
             for (int i = 0; i < N; i++)
             {
                 connections = new int[N];
-                Array.Copy(caves, numbConn, connections, 0, N);
-                nodes[i].AllConnections(connections);
-                numbConn += N;
+
+
+
+
+                //Array.Copy(caves, numbConn, connections, 0, N);
+                //nodes[i].AllConnections(connections);
+                //numbConn += N;
             }
         }
     }

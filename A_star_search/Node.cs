@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace A_star_search
 {
-    class Node
+    public class Node
     {
         public int Key { get; private set; }
         public int X_pos { get; set; }
@@ -25,6 +25,5 @@ namespace A_star_search
         {
             Connections = conn;
         }
-        public Node parent;
     }
 }
