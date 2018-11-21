@@ -21,10 +21,10 @@ namespace A_star_search
 
 
             SetCoordinatesAndConnections(caves, N, numbCoord, nodes);
-            Algorithm.Breadth_First_Search(nodes);
-            //Algorithm.Test(nodes);
-            //Algorithm.DijkstraSearch(nodes);
-            //PrintDebugConnections(nodes);
+            //Algorithm.Breadth_First_Search(nodes);
+            Algorithm.Dijkstra(nodes);
+
+
             Console.ReadKey();
         }
 
@@ -35,32 +35,11 @@ namespace A_star_search
             return Array.ConvertAll(data, int.Parse);
         }
 
-
-
-
-        private static void PrintDebugConnections(List<Node> nodes)
-        {
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                Console.Write(string.Join(" ", nodes[i].Connections));
-                Console.Write("\n");
-            }
-            Console.WriteLine();
-
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                Console.Write("Node " + nodes[i].Key + ", index " + i + ": " + nodes[i].X_pos + "," + nodes[i].Y_pos+ " Connections: " + string.Join(" ", nodes[i].Connections));
-                Console.Write("\n");
-            }
-        }
-
-
         private static void SetCoordinatesAndConnections(int[]caves, int N, int numbCoord, List<Node> nodes)
         {
             N = caves[0];
             numbCoord = N * 2;
             int no = 1;
-            int[] connections;
             for (int i = 1; i < numbCoord; i += 2)
             {
                 Node node = new Node(no, caves[i], caves[i + 1]);
@@ -69,15 +48,6 @@ namespace A_star_search
             }
             int numbConn = numbCoord + 1;
 
-
-
-            //for (int i = 0; i < N; i++)
-            //{
-            //    connections = new int[N];
-            //    Array.Copy(caves, numbConn, connections, 0, N);
-            //    nodes[i].AllConnections(connections);
-            //    numbConn += N;
-            //}
 
             int first = 1;
             int second = 1;
@@ -98,15 +68,6 @@ namespace A_star_search
                 first++;
                 numbConn++;
             }
-
-            //List<Node> temp = new List<Node>(nodes);
-            //for (int i = 0; i < N; i++)
-            //{
-            //    for (int j = 0; j < N; j++)
-            //    {
-            //        nodes[j].Connections[i] = temp[i].Connections[j];
-            //    }
-            //}
         }
     }
 }
