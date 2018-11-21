@@ -52,7 +52,6 @@ namespace A_star_search
 
             Dictionary<int, Node> cameFrom = new Dictionary<int, Node>();
 
-
             double h = 0;
             visited.Add(start);
             start.F = Calculations.Euclidean(start, destination);
@@ -61,13 +60,21 @@ namespace A_star_search
 
             while (OpenList.Count>0)
             {
+
                 Node x = Calculations.Priority(OpenList);
                 if(x == destination)
                 {
-                    foreach(KeyValuePair<int, Node> pair in cameFrom)
+                    if (cameFrom.ContainsKey(x.Key))
                     {
-                        Console.WriteLine(pair.Key, pair.Value);
+                        Console.WriteLine(start.Key);
+                        foreach (int i in cameFrom.Keys)
+                        {
+                            Console.WriteLine(i);
+                        }
                     }
+                    //Path(cameFrom, x, start);
+
+                    break;
                 }
                 x = OpenList.Dequeue();
                 visited.Add(x);
@@ -76,27 +83,39 @@ namespace A_star_search
                     int tunnel = x.Connections[i];
                     Node neighbour = caves[tunnel - 1];
 
-
-                    if(visited.Contains(neighbour))
+                    if (visited.Contains(neighbour))
                     {
                         continue;
                     }
                     double new_cost = Calculations.Formula(x.F, x, neighbour);
                     if(neighbour.F == 0 || neighbour.F > new_cost)
                     {
-                        cameFrom.Add(neighbour.Key, x);
                         h = Calculations.Formula(h, x, destination);
                         OpenList.Enqueue(neighbour);
-                        visited.Add(neighbour);
                         neighbour.F = Calculations.Formula(h, x, destination);
+                        visited.Add(neighbour);
                     }
-
-                }               
+                    cameFrom.Add(neighbour.Key, x);
+                }
             }
         }
 
 
-
+        //public static void Path(Dictionary<int, Node> cameFrom, Node current, Node start)
+        //{
+        //    if (cameFrom.ContainsKey(current.Key))
+        //    {
+        //        Console.WriteLine(start.Key);
+        //        foreach (int i in cameFrom.Keys)
+        //        {
+        //            Console.WriteLine(i);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("0");
+        //    }
+        //}
 
 
 
