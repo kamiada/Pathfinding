@@ -11,7 +11,7 @@ namespace A_star_search
         public int Key { get; private set; }
         public int X_pos { get; set; }
         public int Y_pos { get; set; }
-        public int[] Connections { get; set; }
+        public List<int> Connections = new List<int>();
         public bool isWalkable { get; set; }
         public double F { get; set; }
         public Node(int key, int x, int y)
@@ -21,9 +21,11 @@ namespace A_star_search
             Y_pos = y;
             isWalkable = false;
         }
-        public void AllConnections(int[] conn)
-        {
-            Connections = conn;
-        }
+        //public void AllConnections(int[] conn)
+        //{
+        //    Connections = conn;
+        //}
+
+      
     }
 }

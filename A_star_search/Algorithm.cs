@@ -8,94 +8,76 @@ namespace A_star_search
 {
     class Algorithm
     {
-        public static void SearchAlgorithm(List<Node> Locations)
+
+
+        //public static void DijkstraSearch(List<Node> caves)
+        //{
+        //    List<Node> OpenList = new List<Node>();
+        //    List<Node> ClosedList = new List<Node>();
+
+        //    List<double> costSoFar = new List<double>();
+        //    List<Node> cameFrom = new List<Node>();
+
+
+        //    Node start = caves[0];
+        //    Node goal = caves[caves.Count() - 1];
+        //    OpenList.Add(start);
+        //    costSoFar.Add(start.F);
+
+        //    if (OpenList.Count > 0)
+        //    {
+        //        Node current = Calculations.CalculateTheSmallest(OpenList);
+        //        //WIN CASE
+        //        if (current == goal)
+        //        {
+        //            //print the path
+        //        }
+        //        OpenList.Remove(current);
+        //        ClosedList.Add(current);
+        //    }
+
+        //}
+
+
+
+        public static void Test(List<Node> caves)
         {
-            var shortestPath = new List<Node>();
-            Node start = Locations[0];
-            Node destination = Locations[Locations.Count() - 1];
-            //BuildThePath(shortestPath, destination);
-            shortestPath.Reverse();
-        }
-
-        private void BuildThePath(List<Node> path, Node current, Node goal)
-        {
-
-        }
-
-        public static void DijkstraSearch(List<Node> caves)
-        {
-            List<Node> OpenList = new List<Node>();
-            List<Node> ClosedList = new List<Node>();
-
-            List<double> costSoFar = new List<double>();
-            List<Node> cameFrom = new List<Node>();
-
-
             Node start = caves[0];
-            Node goal = caves[caves.Count() - 1];
-            OpenList.Add(start);
-            costSoFar.Add(start.F);
-
-            if (OpenList.Count > 0)
-            {
-                Node current = Calculations.CalculateTheSmallest(OpenList);
-                //WIN CASE
-                if (current == goal)
-                {
-                    //print the path
-                }
-                OpenList.Remove(current);
-                ClosedList.Add(current);
-            }
-
-        }
-
-
-
-        public static IEnumerable<int> total_path = new List<int>();
-
-
-        public static void A_star_Search(List<Node>caves)
-        {
-            Dictionary<int, Node> path = new Dictionary<int, Node>();
-            List<int> answer = new List<int>();
-            Node start = caves[0];
-            Node test = caves[1];
             Node destination = caves[caves.Count() - 1];
             var OpenList = new Queue<Node>();
             OpenList.Enqueue(start);
             var visited = new HashSet<Node>();
+            var Cost = new List<int>();
             visited.Add(start);
+
             while (OpenList.Count > 0)
             {
                 var current = OpenList.Dequeue();
-                answer.Add(current.Key);
-                //Console.WriteLine("Visiting {0}", current.Key);
                 if (current == destination)
                 {
-                    foreach(Node n in visited)
-                    { Console.WriteLine(n.Key); }
+                    //foreach (Node n in visited)
+                    //{ Console.WriteLine(n.Key); }
                 }
 
-
-                for (int i = 0; i < current.Connections.Count(); i++)
+                //Console.WriteLine("Visiting {0}", current.Key);
+                Console.WriteLine("Node " + current.Key + ": " + current.X_pos + "," + current.Y_pos);
+                for (int i = 1; i < current.Connections.Count(); i++)
                 {
-                    int tunnel = current.Connections[i];
-
-                    if (tunnel == 1)
+                    Node next = caves[i];
+                    int tunnel = 1;
+                    //int tunnel = next.Connections[i];
+                    //int pos = Array.IndexOf(next.Connections, tunnel);
+                    if (next.Connections[i]== 1)
                     {
-                        Node neighbour = caves[i];
-                        if (!visited.Contains(neighbour))
+                        //Node neighbour = caves[pos];
+                        if (!visited.Contains(next))
                         {
-                            OpenList.Enqueue(neighbour);
-                            visited.Add(neighbour);
-                            answer.Add(current.Key);
+                            OpenList.Enqueue(next);
+                            visited.Add(next);
                         }
                     }
-
-                    
-
                 }
+
             }
         }
 
@@ -103,29 +85,88 @@ namespace A_star_search
         {
             Node start = caves[0];
             var OpenList = new Queue<Node>();
+            List<Node> path = new List<Node>();
             OpenList.Enqueue(start);
             var visited = new HashSet<Node>();
             visited.Add(start);
-
+            Node destination = caves[caves.Count() - 1];
             while (OpenList.Count > 0)
             {
                 var current = OpenList.Dequeue();
+
+                if(current == destination)
+                {
+                    //foreach (Node n in visited)
+                    //{ Console.WriteLine(n.Key); }
+                }
+
                 Console.WriteLine("Visiting {0}", current.Key);
                 for (int i = 0; i < current.Connections.Count(); i++)
                 {
                     int tunnel = current.Connections[i];
 
-                    if (tunnel == 1)
+                    Node neighbour = caves[tunnel-1];
+                    if (!visited.Contains(neighbour))
                     {
-                        Node neighbour = caves[i];
-                        if (!visited.Contains(neighbour))
-                        {
-                            OpenList.Enqueue(neighbour);
-                            visited.Add(neighbour);
-                        }
+                        OpenList.Enqueue(neighbour);
+                        visited.Add(neighbour);
                     }
                 }
             }
         }
+
+
+        public static void A_start(List<Node>caves)
+        {
+            Node start = caves[0];
+            Node destination = caves[caves.Count() - 1];
+
+            var OpenList = new Queue<Node>();
+            var visited = new HashSet<Node>();
+            var g_score = new List<double>();
+            double h = 0;
+            visited.Add(start);
+            start.F = 0;
+            g_score.Add(start.F);
+            OpenList.Enqueue(start);
+
+            while (OpenList.Count>0)
+            {
+                Node x = Calculations.CalculateTheSmallest(OpenList);
+                if(x == destination)
+                {
+                    //coś tam coś, powinno być, ale tym się zajmę później
+                }
+                x = OpenList.Dequeue();
+                visited.Add(x);
+
+                foreach(Node y in OpenList)
+                {
+                    if(visited.Contains(y))
+                    {
+                        continue;
+                    }
+
+                    //g_score.Add(Calculations.Formula(h, x, destination));
+                    g_score.Add(Calculations.Euclidean(x, y));
+                    if (!OpenList.Contains(y))
+                    {
+                        OpenList.Enqueue(y);
+                    }
+
+
+
+                }
+            }
+        }
+
+        public static void Path(List<Node> CameFrom, Node current)
+        {
+            if(CameFrom.Contains(current))
+            {
+
+            }
+        }
+
     }
 }

@@ -24,9 +24,11 @@ namespace A_star_search
             return distance_xy;
         }
 
-        public static Node CalculateTheSmallest(List<Node> nodes)
+        //public static Node CalculateTheSmallest(List<Node> nodes)
+        public static Node CalculateTheSmallest(Queue<Node> nodes)
         {
-            Node current = nodes[0];
+            //Node current = nodes[0];
+            Node current = nodes.First();
             foreach (Node lowest in nodes)
             {
                 if (lowest.F < current.F)
