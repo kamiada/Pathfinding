@@ -64,16 +64,17 @@ namespace A_star_search
                 Node x = Calculations.Priority(OpenList);
                 if(x == destination)
                 {
-                    if (cameFrom.ContainsKey(x.Key))
+                    while (cameFrom.ContainsKey(x.Key))
                     {
-                        Console.WriteLine(start.Key);
-                        foreach (int i in cameFrom.Keys)
+                        List<Node> path = new List<Node>();
+                        x = cameFrom[x.Key];
+                        path.Add(x);
+                        path.Reverse();
+                        foreach (Node n in path)
                         {
-                            Console.WriteLine(i);
+                            Console.WriteLine(n.Key);
                         }
                     }
-                    //Path(cameFrom, x, start);
-
                     break;
                 }
                 x = OpenList.Dequeue();
@@ -99,25 +100,5 @@ namespace A_star_search
                 }
             }
         }
-
-
-        //public static void Path(Dictionary<int, Node> cameFrom, Node current, Node start)
-        //{
-        //    if (cameFrom.ContainsKey(current.Key))
-        //    {
-        //        Console.WriteLine(start.Key);
-        //        foreach (int i in cameFrom.Keys)
-        //        {
-        //            Console.WriteLine(i);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("0");
-        //    }
-        //}
-
-
-
     }
 }
