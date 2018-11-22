@@ -64,17 +64,7 @@ namespace A_star_search
                 Node x = Calculations.Priority(OpenList);
                 if(x == destination)
                 {
-                    while (cameFrom.ContainsKey(x.Key))
-                    {
-                        List<Node> path = new List<Node>();
-                        x = cameFrom[x.Key];
-                        path.Add(x);
-                        path.Reverse();
-                        foreach (Node n in path)
-                        {
-                            Console.WriteLine(n.Key);
-                        }
-                    }
+                    Path(x, destination, cameFrom);
                     break;
                 }
                 x = OpenList.Dequeue();
@@ -97,6 +87,24 @@ namespace A_star_search
                         visited.Add(neighbour);
                     }
                     cameFrom.Add(neighbour.Key, x);
+                }
+            }
+        }
+
+
+
+        public static void Path(Node current, Node destination, Dictionary<int, Node> cameFrom)
+        {
+            Console.WriteLine(destination.Key);
+            while (cameFrom.ContainsKey(current.Key))
+            {
+                List<Node> path = new List<Node>();
+                current = cameFrom[current.Key];
+                path.Add(current);
+                foreach (Node n in path)
+                {
+                    Console.WriteLine(path.Last().Key);
+
                 }
             }
         }
