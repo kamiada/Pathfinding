@@ -21,10 +21,6 @@ namespace A_star_search
             Y_pos = y;
             isWalkable = false;
         }
-        //public void AllConnections(int[] conn)
-        //{
-        //    Connections = conn;
-        //}
 
       
     }

@@ -41,7 +41,7 @@ namespace A_star_search
         }
 
 
-        public static void Dijkstra(List<Node>caves)
+        public static void Dijkstra(List<Node>caves, string filename)
         {
             Node start = caves[0];
             Node destination = caves[caves.Count() - 1];
@@ -64,7 +64,7 @@ namespace A_star_search
                 Node x = Calculations.Priority(OpenList);
                 if(x == destination)
                 {
-                    Path(x, destination, cameFrom);
+                    Path(x, destination, cameFrom, filename);
                     break;
                 }
                 x = OpenList.Dequeue();
@@ -87,15 +87,18 @@ namespace A_star_search
                         visited.Add(neighbour);
                     }
                     cameFrom.Add(neighbour.Key, x);
+                    cameFrom.OrderByDescending(n => x.Key);
                 }
             }
         }
 
 
 
-        public static void Path(Node current, Node destination, Dictionary<int, Node> cameFrom)
+        public static void Path(Node current, Node destination, Dictionary<int, Node> cameFrom, string filepath)
         {
-            Console.WriteLine(destination.Key);
+            SortedList<int, Node> test = new SortedList<int, Node>();
+            string text = "";
+            //text = destination.Key + " ";
             while (cameFrom.ContainsKey(current.Key))
             {
                 List<Node> path = new List<Node>();
@@ -103,10 +106,22 @@ namespace A_star_search
                 path.Add(current);
                 foreach (Node n in path)
                 {
-                    Console.WriteLine(path.Last().Key);
+                    //text += n.Key + "";
 
+                    test.Add(n.Key, n);
                 }
             }
+            for (int i = 0; i < test.Count; i++)
+            {
+                Console.WriteLine(test.Keys[i]);
+                text += test.Keys[i];
+            }
+            text += destination.Key;
+
+
+
+            System.IO.File.WriteAllText(filepath + ".csn", text);
+
         }
     }
 }

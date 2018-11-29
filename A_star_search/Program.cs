@@ -14,7 +14,8 @@ namespace A_star_search
         {
             Console.Title = "40213297_A*search algorithm implementation with use of C# Lists";
             List<Node> nodes = new List<Node>();
-            string input = Console.ReadLine();
+            //string input = Console.ReadLine();
+            string input = args[0];
             int[] caves = FindAndReadFile(input);
             int N = caves[0];
             int numbCoord = N * 2;
@@ -22,7 +23,7 @@ namespace A_star_search
 
             SetCoordinatesAndConnections(caves, N, numbCoord, nodes);
             //Algorithm.Breadth_First_Search(nodes);
-            Algorithm.Dijkstra(nodes);
+            Algorithm.Dijkstra(nodes, input);
 
 
             Console.ReadKey();
@@ -30,7 +31,7 @@ namespace A_star_search
 
         private static int[] FindAndReadFile(string filepath)
         {
-            string line = File.ReadAllText(filepath);
+            string line = File.ReadAllText(filepath + ".cav");
             string[] data = Regex.Split(line, ",");
             return Array.ConvertAll(data, int.Parse);
         }
